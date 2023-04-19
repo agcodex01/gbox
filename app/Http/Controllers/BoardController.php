@@ -13,4 +13,10 @@ class BoardController extends Controller
         $header = 'Boards';
         return view('boards.index', compact('boards', 'header'));
     }
+
+    public function edit(Board $board)
+    {
+        $header = "Boards / $board->id";
+        return view('boards.edit', compact('board', 'header'));
+    }
 }

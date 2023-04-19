@@ -5,7 +5,7 @@
             <form action="{{ route('boards.index') }}" method="GET" class="w-75 d-flex align-items-center">
                 <div class="input-group w-25 mr-2">
                     <input type="text" class="form-control" placeholder="Search board code..." aria-label="Board code"
-                        aria-describedby="search">
+                        aria-describedby="search" name="search">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="button"><i class="fa fa-search"></i></button>
                     </div>
@@ -35,7 +35,7 @@
                         <td>{{ $board->size }}</td>
                         <td>{{ $board->stocks }}</td>
                         <td class="w-25">
-                            <a href="#" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('boards.edit', $board)}}" class="btn btn-primary">Edit</a>
                             <a href="#" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
