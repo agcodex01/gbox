@@ -17,8 +17,9 @@ class CreateBoardsTable extends Migration
             $table->id();
             $table->string('code');
             $table->string('type');
-            $table->string('size');
-            $table->integer('stocks');
+            $table->integer('width');
+            $table->integer('heigth');
+            $table->integer('stocks')->default(0);
             $table->timestamps();
         });
     }

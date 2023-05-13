@@ -2,21 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\BoardFilter;
+use App\Http\Requests\BoardRequest;
 use App\Models\Board;
 use Illuminate\Http\Request;
 
 class BoardController extends Controller
 {
-    public function index(Request $request)
+    public function index(BoardFilter $filter)
     {
-        $boards = Board::paginate(min($request->size, 100));
-        $header = 'Boards';
-        return view('boards.index', compact('boards', 'header'));
+        $boards = Board::filter($filter)->paginate();
+        $headers = ['Boards'];
+        return view('boards.index', compact('boards', 'headers'));
+    }
+
+    public function create()
+    {
+        $board = new Board();
+        return view('boards.create', compact('board'));
+    }
+
+    public function store(BoardRequest $request)
+    {
+        Board::create($request->validated());
+
+        return redirect()->route('boards.index');
     }
 
     public function edit(Board $board)
     {
-        $header = "Boards / $board->id";
-        return view('boards.edit', compact('board', 'header'));
+        $headers = ["Boards", 'Edit'];
+        return view('boards.edit', compact('board', 'headers'));
+    }
+
+    public function update(BoardRequest $request, Board $board)
+    {
+        $board->update($request->validated());
+
+        return redirect()->route('boards.index');
+    }
+
+    public function destroy(Board $board)
+    {
+        $board->delete();
+
+        return back();
     }
 }

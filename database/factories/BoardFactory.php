@@ -16,7 +16,8 @@ class BoardFactory extends Factory
         return [
             'code' => '123',
             'type' => 'ASD',
-            'size' => '12X12',
+            'width' => 12,
+            'heigth' => 12,
             'stocks' => 100
         ];
     }

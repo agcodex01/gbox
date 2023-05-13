@@ -11,7 +11,7 @@ class Navbar extends Component
      *
      * @return void
      */
-    public function __construct(public string $header)
+    public function __construct(public array $headers)
     {
 
     }
