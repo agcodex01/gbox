@@ -14,21 +14,11 @@ class OrderForm extends Component
     public $items = [];
     public $total = 0;
 
-    // protected $rules = [
-    //     'items.*.productId' => 'required',
-    //     'items.*.quantity' => 'required|min:1',
-    // ];
-
-    // protected $messages = [
-    //     'items.*.productId.required' => 'Pease select a product.',
-    //     'items.*.quantity.required' => 'Please set a product quantity.',
-    // ];
-
     protected $listeners = [LivewireEvents::CUSTOMER_SELECT => 'onCustomerSelect'];
 
-    public function mount(Customer $customer)
+    public function mount($customer)
     {
-        $this->customer = $customer;
+        $this->customer = Customer::find($customer)?->first();
 
         array_push($this->items, [
             'productId' => null,
@@ -37,12 +27,13 @@ class OrderForm extends Component
             'quantity' => null,
         ]);
 
-        $this->products = $customer->products;
+        $this->products = $this->customer?->products ?? [];
     }
 
-    public function onCustomerSelect(Customer $customer)
+    public function onCustomerSelect($customer)
     {
-        $this->products = $customer->products;
+        $this->customer = Customer::find($customer)?->first();
+        $this->products = $this->customer?->products ?? [];
     }
 
     public function addItem()

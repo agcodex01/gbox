@@ -19,7 +19,8 @@ class BoardController extends Controller
     public function create()
     {
         $board = new Board();
-        return view('boards.create', compact('board'));
+        $headers = ['Boards', 'Create'];
+        return view('boards.create', compact('board','headers'));
     }
 
     public function store(BoardRequest $request)

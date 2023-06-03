@@ -12,7 +12,7 @@
                 </div>
             </form>
             <div>
-                <a href="{{ route('orders.create')}}" class="btn btn-outline-primary">Add Order +</a>
+                <a href="{{ route('orders.create') }}" class="btn btn-outline-primary">Add Order +</a>
             </div>
         </div>
         <div>
@@ -23,7 +23,8 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Customer</th>
-
+                    <th scope="col">EDD</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Products</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -31,15 +32,18 @@
             <tbody>
                 @foreach ($orders as $order)
                     <tr>
-                        <td>{{ $order->id }}</td>
+                        <td><a href="{{ route('orders.show', $order->id) }}">{{ $order->id }}</a></td>
                         <td>{{ $order->customer->user->name }}</td>
-
+                        <td>{{ $order->estimated_delivery_date->format('d M, Y') }}
+                            ({{ $order->estimated_delivery_date->diffForHumans('d') }})
+                        </td>
+                        <td>{{ $order->status }}</td>
                         <td>{{ $order->products_count }}</td>
                         <td>
-                            <a href="#" class="btn btn-primary"><i
-                                    class="fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                                data-id="{{ $order->id }}"><i class="fa fa-trash"></i></a>
+                            <a href="#" class="btn"><i class="fa text-primary fa-edit"></i></a>
+                            <a href="#" class="btn btn-delete" data-toggle="modal" data-target="#deleteModal"
+                                data-id="{{ $order->id }}"><i class="fa text-danger fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 @endforeach
@@ -72,7 +76,7 @@
                     <p>Are you sure to delete this order? This proccess cannot be undo.</p>
                 </div>
                 <div class="modal-footer">
-                    <form id="delete-form" action="#" method="POST">
+                    <form id="delete-form" action="{{ route('orders.destroy', '') }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="button" class="btn" type="button" data-dismiss="modal">Cancel</button>
@@ -86,7 +90,7 @@
 
 @push('scripts')
     <script>
-        $('.btn-danger').on('click', function() {
+        $('.btn-delete').on('click', function() {
             $('#delete-form').attr('action', $('#delete-form').attr('action') + '/' + $(this).data('id'))
         })
     </script>

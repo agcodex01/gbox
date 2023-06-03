@@ -43,8 +43,7 @@
                                 <div class="d-flex justify-content-between align-items-end">
                                     List
                                     <div>
-                                        <button type="button" class="btn btn-sm btn-outline-info" data-toggle="modal"
-                                            data-target="#order-form">Create Order</button>
+                                        <a href="{{ route('orders.create', ['customer_id' => $customer]) }}" class="btn btn-sm btn-outline-info">Create Order</button>
                                         <a href="{{ route('products.create') }}?customer_id={{ $customer->id }}"
                                             class="btn btn-sm btn-outline-primary">Add Product</a>
                                     </div>
@@ -60,8 +59,8 @@
                             <div class="col-md-6 d-flex justify-content-center align-items-center">
                                 <div class="text-center">
                                     <h6 class="font-weight-bold">Products</h6>
-                                    <img width="50px" class="mb-2 mx-auto d-block"
-                                        src="{{ asset('img/undraw_profile_1.svg') }}" alt="">
+                                    <img width="200px" class="my-4 mx-auto d-block"
+                                    src="{{ asset('img/products.svg') }}" alt="">
                                     <p>Currently no proucts to this customer. Add one.</p>
                                     <a href="{{ route('products.create') }}?customer_id={{ $customer->id }}"
                                         class="btn btn-sm btn-outline-primary">Add Product</a>
@@ -75,23 +74,3 @@
         </div>
     </div>
 @endsection
-@push('modal')
-    <div class="modal fade" id="order-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Order Form</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body p-4">
-
-                    <livewire:customer.order-form :customer="$customer" />
-
-                </div>
-            </div>
-        </div>
-    </div>
-@endpush

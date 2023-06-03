@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\ComponentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,10 +27,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::middleware('auth')->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
     Route::resource('boards', BoardController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('staffs', StaffController::class);
     Route::resource('products', ProductController::class);
     Route::resource('orders', OrderController::class);
+    Route::resource('components', ComponentController::class);
+
+    Route::prefix('/api')->group(function () {
+        Route::get('products', [ApiController::class, 'products']);
+        Route::get('customers/{customer}', [ApiController::class, 'findCustomerById']);
+        Route::get('orders/{order}/items', [ApiController::class, 'orderItems']);
+    });
 });

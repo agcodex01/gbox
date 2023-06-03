@@ -11,7 +11,12 @@ class Order extends Model
 
     protected $fillable = [
         'customer_id',
+        'estimated_delivery_date',
         'status'
+    ];
+
+    protected $casts = [
+        'estimated_delivery_date' => 'date'
     ];
 
     public function customer()
@@ -21,6 +26,6 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('quantity', 'sub_total');
     }
 }

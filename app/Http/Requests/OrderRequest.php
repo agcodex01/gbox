@@ -24,7 +24,9 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-
+            'customer_id' => 'required|exists:customers,id',
+            'estimated_delivery_date' => 'required|date',
+            'items' => 'required|array'
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     protected $fillable = [
         'name',
@@ -32,8 +33,18 @@ class Product extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function boards(): BelongsToMany
+    public function board()
     {
-        return $this->belongsToMany(Board::class);
+        return $this->belongsTo(Board::class);
+    }
+
+    public function components()
+    {
+        return $this->belongsToMany(Component::class)->withPivot('qty');
+    }
+
+    public function getBoardQty()
+    {
+        return $this->estimate * $this->pivot->quantity;
     }
 }

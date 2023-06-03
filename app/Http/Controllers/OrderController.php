@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Consts\Status;
+use App\Http\Requests\OrderRequest;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -16,21 +19,56 @@ class OrderController extends Controller
         return view('orders.index', compact('orders', 'headers'));
     }
 
-    public function create()
+
+    public function show(Order $order)
     {
-        $customer = new Customer();
-        $headers = ['Orders', 'Add New'];
+        $headers = ['Orders', 'View'];
+        $order = $order->load('products', 'products.components');
+        return view('orders.view', compact('headers', 'order'));
+    }
+
+    public function create(Request $request)
+    {
+        $customer = Customer::find($request->customer_id) ?? new Customer();
+
+        $headers = ['Orders', 'Create'];
         $customers = Customer::with('user')->get()->pluck('user.name', 'id');
 
         return view('orders.create', compact('headers', 'customer', 'customers'));
     }
 
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        dd($request->all());
-        $order = Order::create();
+        $order = Order::create([
+            'customer_id' => $request->customer_id,
+            'estimated_delivery_date' => $request->estimated_delivery_date,
+            'status' => 'pending'
+        ]);
 
-        $order->products()->syncWithoutDetaching();
+        collect($request->items)->each(function ($item) use ($order) {
+            $product = Product::find($item['id']);
+            $order->products()->syncWithoutDetaching([
+                $product->id => [
+                    'quantity' => $item['qty'],
+                    'sub_total' => $product->price * $item['qty']
+                ]
+            ]);
+        });
+
+
+        return redirect()->route('orders.index');
+    }
+
+    public function edit(Order $order)
+    {
+        $headers = ['Orders', 'Edit Order'];
+        $statuses = Status::options();
+        return view('orders.edit', compact('order', 'headers', 'statuses'));
+    }
+
+    public function destroy(Order $order)
+    {
+        $order->delete();
 
         return redirect()->route('orders.index');
     }

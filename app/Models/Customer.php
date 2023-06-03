@@ -11,6 +11,8 @@ class Customer extends Model
 {
     use HasFactory;
 
+    protected $with = ['user'];
+
     public function user(): MorphOne
     {
         return $this->morphOne(User::class, 'userable');

@@ -55,8 +55,8 @@
                         <div class="col-md-6 d-flex justify-content-center align-items-center">
                             <div class="text-center">
                                 <h6 class="font-weight-bold">Products</h6>
-                                <img width="50px" class="mb-2 mx-auto d-block"
-                                    src="{{ asset('img/undraw_profile_1.svg') }}" alt="">
+                                <img width="200px" class="my-4 mx-auto d-block"
+                                    src="{{ asset('img/products.svg') }}" alt="products">
                                 <small>Create a new customer to associate products to them.</small>
                             </div>
 

@@ -14,7 +14,7 @@ class StaffFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'role' => 'OFFICE_CLERK'
         ];
     }
 }

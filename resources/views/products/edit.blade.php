@@ -5,8 +5,13 @@
             <form action="{{ route('products.update', $product) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    Update product
+                <div class="card-header bg-white border d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="{{ route('products.index') }}" class="btn border-right mr-2"><i
+                                class="fa fa-chevron-left"></i>
+                            Back</a>
+                        Create Product
+                    </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
                 <div class="card-body">

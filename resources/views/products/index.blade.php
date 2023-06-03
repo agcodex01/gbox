@@ -37,11 +37,10 @@
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->created_at->diffForHumans() }}</td>
                         <td>
-                            <a href="{{ route('products.edit', $product) }}" class="btn btn-primary"><i
-                                    class="fa fa-edit"></i></a>
-                            {{-- <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                                data-id="{{ $product->id }}"><i class="fa fa-trash"></i></a> --}}
-                            <livewire:table-action-delete :entityId="$product->id">
+                            <a href="{{ route('products.edit', $product) }}" class="btn"><i
+                                    class="text-primary fa fa-edit"></i></a>
+                            <a href="#" class="btn btn-delete" data-toggle="modal" data-target="#deleteModal"
+                                data-id="{{ $product->id }}"><i class="fa text-danger fa-trash"></i></a>
                         </td>
                     </tr>
                 @endforeach
@@ -56,8 +55,7 @@
 @endsection
 
 @push('modal')
-    <!-- Logout Modal-->
-    {{-- <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -83,13 +81,12 @@
                 </div>
             </div>
         </div>
-    </div> --}}
-    <livewire:modal :header="'Delete Product'"/>
+    </div>
 @endpush
 
 @push('scripts')
     <script>
-        $('.btn-danger').on('click', function() {
+        $('.btn-delete').on('click', function() {
             $('#delete-form').attr('action', $('#delete-form').attr('action') + '/' + $(this).data('id'))
         })
     </script>

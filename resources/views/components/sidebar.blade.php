@@ -9,8 +9,8 @@
 
     <hr class="sidebar-divider my-0">
 
-    <li class="nav-item active">
-        <a class="nav-link" href="#">
+    <li class="nav-item @if(Route::currentRouteName() === 'dashboard') active @endif">
+        <a class="nav-link" href="{{ route('dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -23,7 +23,7 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+        <a class="nav-link active collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-user"></i>
             <span>Users</span>
@@ -31,9 +31,9 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Internal</h6>
-                <a class="collapse-item" href="{{ route('staffs.index') }}">Staffs</a>
+                <a class="collapse-item @if(Route::currentRouteName() === 'staffs.index') active @endif" href="{{ route('staffs.index') }}">Staffs</a>
                 <h6 class="collapse-header">External</h6>
-                <a class="collapse-item" href="{{ route('customers.index') }}">Customers</a>
+                <a class="collapse-item @if(Route::currentRouteName() === 'customers.index') active @endif" href="{{ route('customers.index') }}">Customers</a>
                 <a class="collapse-item" href="#">Supplier</a>
             </div>
         </div>
@@ -48,8 +48,10 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Entities</h6>
-                <a class="collapse-item" href="{{ route('boards.index') }}">Boards</a>
-                <a class="collapse-item" href="{{ route('products.index') }}">Products</a>
+                <a class="collapse-item @if(Route::currentRouteName() === 'boards.index') active @endif" href="{{ route('boards.index') }}">Boards</a>
+                <a class="collapse-item @if(Route::currentRouteName() === 'components.index') active @endif" href="{{ route('components.index') }}">Components</a>
+                <a class="collapse-item @if(Route::currentRouteName() === 'products.index') active @endif" href="{{ route('products.index') }}">Products</a>
+
             </div>
         </div>
     </li>
@@ -57,7 +59,7 @@
     <div class="sidebar-heading">
         Monitoring
     </div>
-    <li class="nav-item">
+    <li class="nav-item @if(Route::currentRouteName() === 'orders.index') active @endif">
         <a class="nav-link" href="{{ route('orders.index') }}">
             <i class="fas fa-fw fa-list"></i>
             <span>Orders</span></a>

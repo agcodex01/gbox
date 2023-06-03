@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StaffRequest extends FormRequest
 {
@@ -29,7 +30,10 @@ class StaffRequest extends FormRequest
             'address' => 'sometimes',
             'email' => 'required|email:dns',
             'phone' => 'sometimes',
-            'password' => 'required|min:8|confirmed'
+            'password' => Rule::when(
+                $this->method() == 'POST',
+                'required|min:8|confirmed',
+            )
         ];
     }
 }

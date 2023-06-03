@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Board;
+use App\Models\Component;
 use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -17,9 +18,11 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $headers = ['Products'];
+
         $products = Product::latest()->paginate();
 
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products', 'headers'));
     }
 
     /**
@@ -32,12 +35,15 @@ class ProductController extends Controller
         $product = new Product();
         $customers = Customer::with('user')->get()->pluck('user.name', 'id');
         $boards = Board::all()->pluck('code', 'id');
+        $components = Component::all()->pluck('name', 'id');
         $customer = null;
         if ($request->customer_id) {
             $customer = Customer::find($request->customer_id);
         }
 
-        return view('products.create', compact('product', 'customers', 'customer', 'boards'));
+        $headers = ['Products', 'Create'];
+
+        return view('products.create', compact('product', 'customers', 'customer', 'boards', 'headers', 'components'));
     }
 
     /**
@@ -48,9 +54,15 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $product =  Product::create(collect($request->validated())->except('board_id')->all());
+        $product =  Product::create(collect($request->validated())->except('items')->all());
 
-        $product->boards()->syncWithoutDetaching($request->board_id);
+        $items = collect($request->all())->only('items')->first();
+
+        collect($items)->each(function ($item) use ($product) {
+            $product->components()->syncWithoutDetaching([
+                $item['id'] => ['qty' => $item['qty']]
+            ]);
+        });
 
         return redirect()->route('products.index');
     }

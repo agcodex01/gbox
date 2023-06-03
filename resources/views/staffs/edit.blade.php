@@ -2,11 +2,17 @@
 @section('content')
     <div class="container-fluid">
         <div class="card">
-            <form action="{{ route('staffs.store') }}" method="POST">
+            <form action="{{ route('staffs.update', $staff) }}" method="POST">
                 @csrf
+                @method('PUT')
 
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    Edit staff
+
+                    <div>
+                        <a href="{{ route('staffs.index') }}" class="btn border-right mr-2"><i class="fa fa-chevron-left"></i>
+                            Back</a>
+                        Edit Staff
+                    </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
                 <div class="card-body">
@@ -27,10 +33,12 @@
                             </div>
                             <div class="form-group mb-5">
                                 <label for="role">Role</label>
-                                <select name="role" id="role" class="form-control  @error('role') is-invalid @enderror">
+                                <select name="role" id="role"
+                                    class="form-control  @error('role') is-invalid @enderror">
                                     <option value="">Select a role</option>
                                     @foreach ($roles as $key => $value)
-                                        <option value="{{ $key }}" @if ($staff->role == $key) selected @endif>{{ $value }}</option>
+                                        <option value="{{ $key }}"
+                                            @if ($staff->role == $key) selected @endif>{{ $value }}</option>
                                     @endforeach
                                 </select>
                                 @error('role')
@@ -68,8 +76,8 @@
                             <h6 class="font-weight-bold">Credential</h6>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" aria-describedby="passwordHelp"
-                                    name="password">
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    id="password" aria-describedby="passwordHelp" name="password">
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

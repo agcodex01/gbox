@@ -4,10 +4,7 @@
     </div>
     <div wire:loading.remove>
 
-        <div class="d-flex justify-content-between align-items-end mb-3">
-            List Items
-            <button class="btn btn-sm btn-outline-primary" wire:click="addItem">Add Item</button>
-        </div>
+
         <div class="row mb-2">
             <div class="col-md-4">
                 Product
@@ -60,8 +57,8 @@
                     {{ $item['subTotal'] }}
                 </div>
                 <div class="col-md-1">
-                    <button type="button" wire:click="remove({{ $key }})" class="btn btn-danger"><i
-                            class="fa fa-trash"></i></button>
+                    <button type="button" wire:click="remove({{ $key }})" class="btn"><i
+                            class="fa text-danger fa-trash"></i></button>
                 </div>
             @endforeach
             <hr class="my-2 w-100">

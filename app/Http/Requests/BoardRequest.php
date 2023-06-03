@@ -27,7 +27,8 @@ class BoardRequest extends FormRequest
             'code' => 'required',
             'type' => 'required',
             'width' => 'required',
-            'heigth' => 'required'
+            'heigth' => 'required',
+            'stocks' => 'sometimes'
         ];
     }
 }

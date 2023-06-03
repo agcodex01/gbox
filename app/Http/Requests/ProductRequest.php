@@ -31,9 +31,19 @@ class ProductRequest extends FormRequest
             'description' => 'sometimes|min:2',
             'category' => 'required',
             'price' => 'required|integer|min:1',
-            'board_id' => 'required|exists:boards,id',
+            'board_id' => 'required_without:items|nullable|exists:boards,id',
             'estimate' => 'sometimes|integer',
-            'customer_id' => 'required|exists:customers,id'
+            'customer_id' => 'required|exists:customers,id',
+            'items' => 'sometimes|array'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'customer_id.required' => 'Please select a valid customer.',
+            'board_id.exists' => 'Selected board not exists.',
+        ];
+    }
+
 }
