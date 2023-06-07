@@ -4,7 +4,7 @@ namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class CustomerFilter extends Filter
+class StaffFilter extends Filter
 {
     public function search($value)
     {

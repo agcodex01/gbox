@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\CustomerFilter;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -13,9 +14,9 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CustomerFilter $filter)
     {
-        $customers = Customer::with('user')->paginate();
+        $customers = Customer::filter($filter)->with('user')->paginate();
         $headers = ['Customers'];
 
         return view('customers.index', compact('customers', 'headers'));

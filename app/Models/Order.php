@@ -12,7 +12,8 @@ class Order extends Model
     protected $fillable = [
         'customer_id',
         'estimated_delivery_date',
-        'status'
+        'status',
+        'total'
     ];
 
     protected $casts = [

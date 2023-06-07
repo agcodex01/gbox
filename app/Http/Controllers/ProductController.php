@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\ProductFilter;
 use App\Http\Requests\ProductRequest;
 use App\Models\Board;
 use App\Models\Component;
@@ -16,11 +17,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ProductFilter $filter)
     {
         $headers = ['Products'];
 
-        $products = Product::latest()->paginate();
+        $products = Product::filter($filter)->latest()->paginate();
 
         return view('products.index', compact('products', 'headers'));
     }

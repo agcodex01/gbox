@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\HasRole;
+use App\Traits\Filterable;
 use App\Traits\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Staff extends Model implements HasRole
 {
-    use HasFactory, Role;
+    use HasFactory, Role, Filterable;
 
     protected $table = 'staffs';
 

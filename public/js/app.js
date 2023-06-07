@@ -5444,6 +5444,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "CustomerInfo",
@@ -28933,31 +28939,37 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-header" }, [_vm._v("Customer Info")]),
+    _c(
+      "div",
+      { staticClass: "card-header bg-primary text-white font-weight-bold" },
+      [_vm._v("Customer Info")]
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _c("h6", [
-        _c("strong", [_vm._v("Name: ")]),
+    _c("div", { staticClass: "card-body p-0" }, [
+      _c("ul", { staticClass: "list-group list-group-flush" }, [
+        _c("li", { staticClass: "list-group-item" }, [
+          _c("strong", { staticClass: "text-muted" }, [_vm._v("Name: ")]),
+          _vm._v(" "),
+          _c("em", [_vm._v(_vm._s(_vm.customer.name || "-"))]),
+        ]),
         _vm._v(" "),
-        _c("em", [_vm._v(_vm._s(_vm.customer.name || "-"))]),
-      ]),
-      _vm._v(" "),
-      _c("h6", [
-        _c("strong", [_vm._v("Tel: ")]),
+        _c("li", { staticClass: "list-group-item" }, [
+          _c("strong", { staticClass: "text-muted" }, [_vm._v("Tel: ")]),
+          _vm._v(" "),
+          _c("em", [_vm._v(" " + _vm._s(_vm.customer.phone || "-") + " ")]),
+        ]),
         _vm._v(" "),
-        _c("em", [_vm._v(" " + _vm._s(_vm.customer.phone || "-") + " ")]),
-      ]),
-      _vm._v(" "),
-      _c("h6", [
-        _c("strong", [_vm._v("Email: ")]),
+        _c("li", { staticClass: "list-group-item" }, [
+          _c("strong", { staticClass: "text-muted" }, [_vm._v("Email: ")]),
+          _vm._v(" "),
+          _c("em", [_vm._v(_vm._s(_vm.customer.email || "-"))]),
+        ]),
         _vm._v(" "),
-        _c("em", [_vm._v(_vm._s(_vm.customer.email || "-"))]),
-      ]),
-      _vm._v(" "),
-      _c("h6", [
-        _c("strong", [_vm._v("Address: ")]),
-        _vm._v(" "),
-        _c("em", [_vm._v(" " + _vm._s(_vm.customer.address || "-"))]),
+        _c("li", { staticClass: "list-group-item" }, [
+          _c("strong", { staticClass: "text-muted" }, [_vm._v("Address: ")]),
+          _vm._v(" "),
+          _c("em", [_vm._v(" " + _vm._s(_vm.customer.address || "-"))]),
+        ]),
       ]),
     ]),
   ])

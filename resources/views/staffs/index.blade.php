@@ -4,8 +4,8 @@
         <div class="d-flex justify-content-between mb-3">
             <form action="{{ route('staffs.index') }}" method="GET" class="w-75 d-flex align-items-center">
                 <div class="input-group w-50 mr-2">
-                    <input type="text" class="form-control" placeholder="Search staff name..." aria-label="staff code"
-                        aria-describedby="search" name="search">
+                    <input type="search" class="form-control" placeholder="Search staff name..." aria-label="staff code"
+                        aria-describedby="search" name="search" value="{{ Request::query()['search'] ?? '' }}">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
                     </div>
@@ -15,41 +15,43 @@
                 <a href="{{ route('staffs.create') }}" class="btn btn-outline-primary">Add Staff +</a>
             </div>
         </div>
-        <div>
-
-        </div>
-        <table class="table border">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Added On</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($staffs as $staff)
+        @if ($staffs->isEmpty() && isset(Request::query()['search']))
+            <x-empty-list index-route="staffs.index"></x-empty-list>
+        @endif
+        @if (!$staffs->isEmpty())
+            <table class="table border">
+                <thead>
                     <tr>
-                        <td>{{ $staff->user->name }}</td>
-                        <td>{{ $staff->user->email }}</td>
-                        <td>{{ $staff->getRole() }}</td>
-                        <td>{{ $staff->created_at->diffForHumans() }}</td>
-                        <td>
-                            <a href="{{ route('staffs.edit', $staff) }}" class="btn btn-primary"><i
-                                    class="fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                                data-id="{{ $staff->id }}"><i class="fa fa-trash"></i></a>
-                        </td>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Added On</th>
+                        <th scope="col">Actions</th>
                     </tr>
-                @endforeach
-            </tbody>
+                </thead>
+                <tbody>
+                    @foreach ($staffs as $staff)
+                        <tr>
+                            <td>{{ $staff->user->name }}</td>
+                            <td>{{ $staff->user->email }}</td>
+                            <td>{{ $staff->getRole() }}</td>
+                            <td>{{ $staff->created_at->diffForHumans() }}</td>
+                            <td>
+                                <a href="{{ route('staffs.edit', $staff) }}" class="btn"><i
+                                        class="fa text-primary fa-edit"></i></a>
+                                <a href="#" class="btn btn-delete" data-toggle="modal" data-target="#deleteModal"
+                                    data-id="{{ $staff->id }}"><i class="fa text-danger fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between align-items-center">
+                Showing {{ $staffs->firstItem() }} to {{ $staffs->lastItem() }} of total {{ $staffs->total() }} entries
+                {{ $staffs->appends(request()->query())->onEachSide(1)->links('pagination::bootstrap-4') }}
+            </div>
+        @endif
 
-        </table>
-        <div class="d-flex justify-content-between align-items-center">
-            Showing {{ $staffs->firstItem() }} to {{ $staffs->lastItem() }} of total {{ $staffs->total() }} entries
-            {{ $staffs->appends(request()->query())->onEachSide(1)->links('pagination::bootstrap-4') }}
-        </div>
     </div>
 @endsection
 
@@ -85,7 +87,7 @@
 
 @push('scripts')
     <script>
-        $('.btn-danger').on('click', function() {
+        $('.btn-delete').on('click', function() {
             $('#delete-form').attr('action', $('#delete-form').attr('action') + '/' + $(this).data('id'))
         })
     </script>

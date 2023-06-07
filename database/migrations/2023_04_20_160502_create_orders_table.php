@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->string('estimated_delivery_date');
             $table->string('status')->default('For Approval');
+            $table->float('total')->default(0);
             $table->timestamps();
         });
     }

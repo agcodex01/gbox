@@ -2,55 +2,57 @@
 @section('content')
     <div class="container-fluid pt-5 pb-3 mb-5 bg-white">
         <div class="d-flex justify-content-between mb-3">
-            <form action="{{ route('products.index') }}" method="GET" class="w-75 d-flex align-items-center">
-                <div class="input-group w-50 mr-2">
-                    <input type="text" class="form-control" placeholder="Search product code..." aria-label="product code"
-                        aria-describedby="search" name="search">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
+            <x-search-input placeholder="Search product name..." index-route="products.index" />
             <div>
                 <a href="{{ route('products.create') }}" class="btn btn-outline-primary">Add product +</a>
             </div>
         </div>
-        <div>
+        @if ($products->isEmpty() && Request::query()['search'])
+            <x-empty-list index-route="products.index" />
+        @endif
+        @if (!$products->isEmpty())
+            <div class="table-responsive">
+                <table class="table border">
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Added On</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>{{ $product->customer->user->name }}</td>
+                                <td>{{ $product->code }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ $product->description }}</td>
+                                <td>{{ $product->category }}</td>
+                                <td>{{ $product->created_at->diffForHumans() }}</td>
+                                <td>
+                                    <a href="{{ route('products.edit', $product) }}" class="btn"><i
+                                            class="text-primary fa fa-edit"></i></a>
+                                    <a href="#" class="btn btn-delete" data-toggle="modal" data-target="#deleteModal"
+                                        data-id="{{ $product->id }}"><i class="fa text-danger fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
 
-        </div>
-        <table class="table border">
-            <thead>
-                <tr>
-                    <th scope="col">Code</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($products as $product)
-                    <tr>
-                        <td>{{ $product->code }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->description }}</td>
-                        <td>{{ $product->category }}</td>
-                        <td>{{ $product->created_at->diffForHumans() }}</td>
-                        <td>
-                            <a href="{{ route('products.edit', $product) }}" class="btn"><i
-                                    class="text-primary fa fa-edit"></i></a>
-                            <a href="#" class="btn btn-delete" data-toggle="modal" data-target="#deleteModal"
-                                data-id="{{ $product->id }}"><i class="fa text-danger fa-trash"></i></a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
+                </table>
+            </div>
 
-        </table>
-        <div class="d-flex justify-content-between align-items-center">
-            Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of total {{ $products->total() }} entries
-            {{ $products->appends(request()->query())->onEachSide(1)->links('pagination::bootstrap-4') }}
-        </div>
+            <div class="d-flex justify-content-between align-items-center">
+                Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of total {{ $products->total() }}
+                entries
+                {{ $products->appends(request()->query())->onEachSide(1)->links('pagination::bootstrap-4') }}
+            </div>
+        @endif
+
     </div>
 @endsection
 

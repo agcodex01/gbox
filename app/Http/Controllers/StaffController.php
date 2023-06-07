@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Consts\Roles;
+use App\Filters\StaffFilter;
 use App\Http\Requests\StaffRequest;
 use App\Models\Staff;
 use Illuminate\Http\Request;
@@ -10,9 +11,9 @@ use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
 {
-    public function index()
+    public function index(StaffFilter $filter)
     {
-        $staffs = Staff::paginate();
+        $staffs = Staff::filter($filter)->paginate();
         $headers = ['Staffs'];
 
         return view('staffs.index', compact('staffs', 'headers'));
@@ -56,7 +57,11 @@ class StaffController extends Controller
 
         $data = $request->validated();
 
-        $data['password'] = Hash::make($data['password']);
+        if (!$data['password']) {
+            unset($data['password']);
+        } else {
+            $data['password'] = Hash::make($data['password']);
+        }
 
         $staff->user->update(collect($data)->except('role')->all());
 

@@ -55,6 +55,13 @@ class OrderController extends Controller
             ]);
         });
 
+        $total = $order->products->sum(function ($product) {
+            return $product->pivot->quantity * $product->price;
+        });
+
+        $order->update([
+            'total' => $total
+        ]);
 
         return redirect()->route('orders.index');
     }
