@@ -2,27 +2,27 @@
 @section('content')
     <div class="container-fluid">
         <div class="card bg-transparent border-0">
-            <div class="card-header bg-white border d-flex justify-content-between align-items-center">
-                <div>
-                    <a href="{{ route('orders.index') }}" class="btn border-right mr-2"><i class="fa fa-chevron-left"></i>
-                        Back</a>
-                    Add New Order
+            <form action="{{ route('orders.store') }}" method="POST" id="orderForm">
+                @csrf
+                <div class="card-header bg-white border d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="{{ route('orders.index') }}" class="btn border-right mr-2"><i class="fa fa-chevron-left"></i>
+                            Back</a>
+                        Add New Order
+                    </div>
+                    <button data-toggle="tooltip" title="Disabled tooltip" type="submit" class="btn btn-primary">Save <i
+                            class="fa fa-save ml-1"></i></button>
                 </div>
-                <button data-toggle="tooltip" title="Disabled tooltip" type="button" class="btn btn-primary"
-                    onclick="document.getElementById('orderForm').submit()">Save <i class="fa fa-save ml-1"></i></button>
-            </div>
-            <div class="card-body px-0">
-                <div class="row">
-                    <div class="col-md-8">
-                        <form action="{{ route('orders.store') }}" method="POST" id="orderForm">
-                            @csrf
+                <div class="card-body px-0">
+                    <div class="row">
+                        <div class="col-md-8">
                             <div class="card mb-3">
                                 <div class="card-header">
                                     <h6 class="font-weight-bold">Basic Info</h6>
                                 </div>
                                 <div class="card-body">
                                     <customer-select :customers="{{ $customers }}"
-                                        :selected-customer-id="{{ old('customer_id') ?? 0 }}"
+                                        :selected-customer-id="{{ $customer?->id ?? (old('customer_id') ?? 0) }}"
                                         @error('customer_id') errors="{{ $message }}" @enderror></customer-select>
                                     <div class="form-group">
                                         <label for="estimated_delivery_date">Estimated Delivery Date</label>
@@ -38,14 +38,17 @@
                                 </div>
                             </div>
 
-                            <product-list :selected-customer-id="{{ old('customer_id') ?? 0 }}"></product-list>
-                        </form>
-                    </div>
-                    <div class="col-md-4">
-                        <customer-info class="mb-3"></customer-info>
+                            <product-list :selected-customer-id="{{ $customer?->id ?? (old('customer_id') ?? 0) }}">
+                            </product-list>
+
+                        </div>
+                        <div class="col-md-4">
+                            <customer-info :selected-customer-id="{{ $customer?->id ?? (old('customer_id') ?? 0) }}"
+                                class="mb-3"></customer-info>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 @endsection

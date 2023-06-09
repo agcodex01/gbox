@@ -11,10 +11,10 @@
             </div>
 
             <div class="card-body px-0">
-                <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
+                <div class="rounded border p-3 mb-3 d-flex justify-content-between align-items-center" role="alert">
                     <div>
                         Status: <span class="badge badge-secondary">
-                            {{ $order->status }} </span>
+                            {{ Str::upper($order->status) }} </span>
                     </div>
 
                     <form action="#" method="post">
@@ -23,16 +23,48 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <form action="{{ route('orders.store') }}" method="POST" id="orderForm">
-                            @csrf
-                            <customer-info class="mb-3" :selected-customer-id="{{ $order->customer_id }}"></customer-info>
-                        </form>
+
+                        <customer-info class="mb-3" :selected-customer-id="{{ $order->customer_id }}"></customer-info>
+
                     </div>
                     <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-header text-primary font-weight-bold">
+                                Board Summary
+                            </div>
+                            <div class="card-body py-2">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item px-0 py-2">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <small><strong>CODE</strong></small>
+                                            </div>
+                                            <div class="col-3"> <small><strong>OUT</strong></small> </div>
+                                            <div class="col-4"> <small><strong>STOCKS</strong></small></div>
+                                        </div>
+                                    </li>
+                                    @foreach ($boards as $key => $value)
+                                        <li class="list-group-item px-0 py-2">
+                                            <div class="row">
+                                                <div class="col-5"> <small>{{ $key }} </small> </div>
+                                                <div class="col-3"> <small>{{ transformNumber($value['out'], 2) }}
+                                                    </small>
+                                                </div>
+                                                <div class="col-4"> <small> {{ $value['stocks'] }}
+                                                        {!! stocksStatus(transformNumber($value['out'], 2), $value['stocks']) !!}
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
                         <div class="card border-0 bg-transparent">
                             <div
-                                class="card-header border bg-primary text-white d-flex justify-content-between align-items-center">
-                                <h6 class="m-0">Items</h6>
+                                class="card-header border text-white d-flex justify-content-between align-items-center font-weight-bold text-primary">
+                                <h6 class="m-0 font-weight-bold text-primary">Items</h6>
                                 Total: {{ $order->total }}
                             </div>
                             <div class="card-body px-0 pt-2">
@@ -41,8 +73,8 @@
                                         <div class="card p-0 mb-1">
                                             <div class="card-header py-1 d-flex justify-content-between align-items-center"
                                                 id="headingOne">
-                                                <h6 class="mb-0">
-                                                    {{ $product->name }}
+                                                <h6 class="m-0 font-weight-bold">
+                                                    {{ $product->name }} ({{ $product->pivot->quantity }}pcs)
                                                 </h6>
                                                 <button class="btn btn-sm btn-link" data-toggle="collapse"
                                                     data-target="#viewdetail{{ $key }}" aria-expanded="false"
@@ -61,7 +93,7 @@
                                                                 @foreach ($product->components as $component)
                                                                     <li>
                                                                         {{ $component->name }}
-                                                                        ({{ $component->getQtyByProductQty($product->pivot->quantity) }})
+                                                                        ({{ transformNumber($component->getQtyByProductQty($product->pivot->quantity), 2) }})
                                                                     </li>
                                                                 @endforeach
                                                             </ol>
@@ -75,7 +107,8 @@
                                                                         data-toggle="dropdown" aria-haspopup="true"
                                                                         aria-expanded="false">
                                                                         {{ $component->board->code }}
-                                                                        ({{ $component->getBoardQty($product->pivot->quantity) }})
+
+                                                                        ({{ transformNumber($component->getBoardQty($product->pivot->quantity), 2) }})
                                                                     </a>
                                                                     <div class="dropdown-menu"
                                                                         aria-labelledby="boardComponent{{ $key }}">

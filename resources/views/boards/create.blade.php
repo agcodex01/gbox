@@ -38,12 +38,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="width">Width</label>
-                                        <input type="text" class="form-control" id="width"
+                                        <input type="number" class="form-control" id="width"
                                             aria-describedby="widthHelp" name="width" value="{{ $board->width }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="heigth">Heigth</label>
-                                        <input type="text" class="form-control" id="heigth"
+                                        <input type="number" class="form-control" id="heigth"
                                             aria-describedby="heigthHelp" name="heigth" value="{{ $board->heigth }}">
                                     </div>
                                 </div>

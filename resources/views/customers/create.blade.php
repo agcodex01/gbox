@@ -6,7 +6,13 @@
                 @csrf
 
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    Add New Customer
+                    <div>
+                        <a href="{{ route('customers.index') }}" class="btn border-right mr-2"><i
+                            class="fa fa-chevron-left"></i>
+                        Back</a>
+                        Create Customer
+                    </div>
+                   
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
                 <div class="card-body">

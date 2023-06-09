@@ -28939,33 +28939,31 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c(
-      "div",
-      { staticClass: "card-header bg-primary text-white font-weight-bold" },
-      [_vm._v("Customer Info")]
-    ),
+    _c("div", { staticClass: "card-header font-weight-bold text-primary" }, [
+      _vm._v("Customer Info"),
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body p-0" }, [
       _c("ul", { staticClass: "list-group list-group-flush" }, [
-        _c("li", { staticClass: "list-group-item" }, [
+        _c("li", { staticClass: "list-group-item py-2" }, [
           _c("strong", { staticClass: "text-muted" }, [_vm._v("Name: ")]),
           _vm._v(" "),
           _c("em", [_vm._v(_vm._s(_vm.customer.name || "-"))]),
         ]),
         _vm._v(" "),
-        _c("li", { staticClass: "list-group-item" }, [
+        _c("li", { staticClass: "list-group-item py-2" }, [
           _c("strong", { staticClass: "text-muted" }, [_vm._v("Tel: ")]),
           _vm._v(" "),
           _c("em", [_vm._v(" " + _vm._s(_vm.customer.phone || "-") + " ")]),
         ]),
         _vm._v(" "),
-        _c("li", { staticClass: "list-group-item" }, [
+        _c("li", { staticClass: "list-group-item py-2" }, [
           _c("strong", { staticClass: "text-muted" }, [_vm._v("Email: ")]),
           _vm._v(" "),
           _c("em", [_vm._v(_vm._s(_vm.customer.email || "-"))]),
         ]),
         _vm._v(" "),
-        _c("li", { staticClass: "list-group-item" }, [
+        _c("li", { staticClass: "list-group-item py-2" }, [
           _c("strong", { staticClass: "text-muted" }, [_vm._v("Address: ")]),
           _vm._v(" "),
           _c("em", [_vm._v(" " + _vm._s(_vm.customer.address || "-"))]),

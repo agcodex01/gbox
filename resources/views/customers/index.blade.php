@@ -79,7 +79,7 @@
 
 @push('scripts')
     <script>
-        $('.btn-danger').on('click', function() {
+        $('.btn-delete').on('click', function() {
             $('#delete-form').attr('action', $('#delete-form').attr('action') + '/' + $(this).data('id'))
         })
     </script>

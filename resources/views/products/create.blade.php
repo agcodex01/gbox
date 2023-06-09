@@ -94,8 +94,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                         <div class="col-md-6">
                             <component-list :components="{{ $components }}"></component-list>

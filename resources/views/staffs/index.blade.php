@@ -39,8 +39,10 @@
                             <td>
                                 <a href="{{ route('staffs.edit', $staff) }}" class="btn"><i
                                         class="fa text-primary fa-edit"></i></a>
-                                <a href="#" class="btn btn-delete" data-toggle="modal" data-target="#deleteModal"
-                                    data-id="{{ $staff->id }}"><i class="fa text-danger fa-trash"></i></a>
+                                @if ($staff->user->id != auth()->user()->id)
+                                    <a href="#" class="btn btn-delete" data-toggle="modal" data-target="#deleteModal"
+                                        data-id="{{ $staff->id }}"><i class="fa text-danger fa-trash"></i></a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

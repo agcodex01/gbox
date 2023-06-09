@@ -23,8 +23,32 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $headers = ['Orders', 'View'];
-        $order = $order->load('products', 'products.components');
-        return view('orders.view', compact('headers', 'order'));
+        $order->load('products', 'products.components', 'customer');
+
+        $boards = $order->products->reduce(function ($prev, $product) {
+
+            $prev->put(
+                $product->board->code,
+                [
+                    'stocks' =>  $product->board->stocks,
+                    'out' =>  ($prev->get($product->board->code)['out'] ?? 0) + ($product->estimate * $product->pivot->quantity)
+                ]
+            );
+
+            $product->components->each(function ($component) use ($prev, $product) {
+                $prev->put(
+                    $component->board->code,
+                    [
+                        'stocks' =>  $component->board->stocks,
+                        'out' =>  ($prev->get($component->board->code)['out'] ?? 0) +  $component->getBoardQty($product->pivot->quantity)
+                    ]
+                );
+            });
+
+            return $prev;
+        }, collect([]));
+
+        return view('orders.view', compact('headers', 'order', 'boards'));
     }
 
     public function create(Request $request)
@@ -48,7 +72,7 @@ class OrderController extends Controller
         collect($request->items)->each(function ($item) use ($order) {
             $product = Product::find($item['id']);
             $order->products()->syncWithoutDetaching([
-                $product->id => [
+                $item['id'] => [
                     'quantity' => $item['qty'],
                     'sub_total' => $product->price * $item['qty']
                 ]

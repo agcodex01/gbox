@@ -30,7 +30,7 @@ class CustomerController extends Controller
     public function create()
     {
         $customer = new Customer();
-        $headers = ['Customers', 'Add New'];
+        $headers = ['Customers', 'Create'];
         return view('customers.create', compact('customer', 'headers'));
     }
 
@@ -94,6 +94,8 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+
+        return back();
     }
 }

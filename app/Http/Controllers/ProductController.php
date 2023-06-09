@@ -85,9 +85,20 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Product $product, Request $request)
     {
-        //
+        $headers = ['Products', 'Edit'];
+        $customers = Customer::with('user')->get()->pluck('user.name', 'id');
+        $boards = Board::all()->pluck('code', 'id');
+        $components = Component::all()->pluck('name', 'id');
+        $customer = null;
+        if ($request->customer_id) {
+            $customer = Customer::find($request->customer_id);
+        }
+
+
+        return view('products.edit', compact('product', 'customers', 'customer', 'boards', 'headers', 'components'));
+
     }
 
     /**

@@ -63,7 +63,7 @@
                                 <label for="phone">Phone</label>
                                 <input type="text" class="form-control @error('phone') is-invalid @enderror"
                                     id="phone" aria-describedby="phoneHelp" name="phone"
-                                    value="{{ $staff->phone ?? old('phone') }}">
+                                    value="{{ $staff->user?->phone ?? old('phone') }}">
                                 @error('phone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

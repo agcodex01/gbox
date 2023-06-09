@@ -1,21 +1,21 @@
 <template>
   <div class="card">
-    <div class="card-header bg-primary text-white font-weight-bold">Customer Info</div>
+    <div class="card-header font-weight-bold text-primary">Customer Info</div>
     <div class="card-body p-0">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">
+        <li class="list-group-item py-2">
           <strong class="text-muted">Name: </strong>
           <em>{{ customer.name || "-" }}</em>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item py-2">
           <strong class="text-muted">Tel: </strong>
           <em> {{ customer.phone || "-" }} </em>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item py-2">
           <strong class="text-muted">Email: </strong>
           <em>{{ customer.email || "-" }}</em>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item py-2">
           <strong class="text-muted">Address: </strong>
           <em> {{ customer.address || "-" }}</em>
         </li>

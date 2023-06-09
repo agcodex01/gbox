@@ -1,54 +1,135 @@
 @extends('layouts.app')
 @section('content')
     <div class="container-fluid">
-        <div class="card">
-            <form action="{{ route('products.update', $product) }}" method="POST">
+        <div class="card bg-transparent border-0">
+            <form action="{{ route('products.store') }}" method="POST">
                 @csrf
-                @method('PUT')
                 <div class="card-header bg-white border d-flex justify-content-between align-items-center">
                     <div>
                         <a href="{{ route('products.index') }}" class="btn border-right mr-2"><i
                                 class="fa fa-chevron-left"></i>
                             Back</a>
-                        Create Product
+                        Edit Product
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
-                <div class="card-body">
+                <div class="card-body  border-0 px-0">
 
                     <div class="row">
                         <div class="col-md-6">
-                            <h6 class="font-weight-bold">Personal Info</h6>
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" aria-describedby="nameHelp"
-                                    name="name" value="{{ $product->user->name ?? old('name') }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" aria-describedby="addressHelp"
-                                    name="address" value="{{ $product->user->address ?? old('address') }}">
-                            </div>
-                            <h6 class="font-weight-bold">Contact Info</h6>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                                    name="email" value="{{ $product->user->email ?? old('email')}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" aria-describedby="phoneHelp"
-                                    name="phone" value="{{ $product->user->phone ?? old('phone') }}">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="font-weight-bold">Details</h6>
+                                </div>
+                                <div class="card-body">
+                                    <customer-select :customers="{{ $customers }}"
+                                        :selected-customer-id="{{ $product->customer->id ?? (old('customer_id') ?? 0) }}"
+                                        @error('customer_id') errors="{{ $message }}" @enderror></customer-select>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="code">Code</label>
+                                                <input type="text"
+                                                    class="form-control @error('code') is-invalid @enderror" id="code"
+                                                    aria-describedby="codeHelp" name="code"
+                                                    value="{{ $product->code ?? old('code') }}">
+                                                @error('code')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="category">Category</label>
+                                                <input type="text"
+                                                    class="form-control  @error('category') is-invalid @enderror"
+                                                    id="category" aria-describedby="categoryHelp" name="category"
+                                                    value="{{ $product->category ?? old('category') }}">
+                                                @error('category')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            id="name" aria-describedby="nameHelp" name="name"
+                                            value="{{ $product->name ?? old('name') }}">
+                                        @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <input type="text"
+                                            class="form-control  @error('description') is-invalid @enderror"
+                                            id="description" aria-describedby="descriptionHelp" name="description"
+                                            value="{{ $product->description ?? old('description') }}">
+                                        @error('description')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="price">Price</label>
+                                        <input type="number" class="form-control @error('price') is-invalid @enderror"
+                                            id="price" aria-describedby="priceHelp" name="price"
+                                            value="{{ $product->price ?? old('price') }}">
+                                        @error('price')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 d-flex justify-content-center align-items-center">
-                            <div class="text-center">
-                                <h6 class="font-weight-bold">Products</h6>
-                                <img width="50px" class="mb-2 mx-auto d-block"
-                                    src="{{ asset('img/undraw_profile_1.svg') }}" alt="">
-                                <small>Save a new product to associate product to them.</small>
-                            </div>
+                        <div class="col-md-6">
+                            <component-list :components="{{ $components }}"></component-list>
 
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h6 class="font-weight-bold">Board Info</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="board">Board</label>
+                                        <select name="board_id" id="board"
+                                            class="form-control  @error('board_id') is-invalid @enderror">
+                                            <option value="0">Select a board</option>
+                                            @foreach ($boards as $id => $name)
+                                                <option value="{{ $id }}" @if ($id == $product->board_id) selected @endif> {{ $name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('board_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="estimate">Qty</label>
+                                        <input type="number" class="form-control  @error('estimate') is-invalid @enderror"
+                                            id="estimate" aria-describedby="estimateHelp" name="estimate"
+                                            value="{{ $product->estimate ?? old('estimate') }}">
+                                        @error('estimate')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
