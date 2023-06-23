@@ -10,9 +10,19 @@ if (!function_exists('transformNumber')) {
 }
 
 if (!function_exists('stocksStatus')) {
-    function stocksStatus(int|float $out, int $stocks): string
+    function stocksStatus(int|float|string $out, int $stocks): string
     {
-        $percent = $stocks / $out;
+        if (is_string($out)) {
+            $out = str_replace(',', '', $out);
+        }
+        $percent = ($out / $stocks) * 100;
+
+        if ($out > $stocks) {
+            $percent = 0;
+        } else {
+            $percent = 100 - $percent;
+        }
+
         if ($percent >= 20) {
             return "<span class='text-success'>In Stocks &UpArrow;</span>";
         } else if ($percent <= 20 && $percent >= 1) {

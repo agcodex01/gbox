@@ -2,15 +2,7 @@
 @section('content')
     <div class="container-fluid pt-5 pb-3 mb-5 bg-white">
         <div class="d-flex justify-content-between mb-3">
-            <form action="{{ route('staffs.index') }}" method="GET" class="w-75 d-flex align-items-center">
-                <div class="input-group w-50 mr-2">
-                    <input type="search" class="form-control" placeholder="Search staff name..." aria-label="staff code"
-                        aria-describedby="search" name="search" value="{{ Request::query()['search'] ?? '' }}">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
+            <x-search-input placeholder="Search staff name..." index-route="staffs.index" />
             <div>
                 <a href="{{ route('staffs.create') }}" class="btn btn-outline-primary">Add Staff +</a>
             </div>

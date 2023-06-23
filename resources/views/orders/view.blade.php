@@ -2,11 +2,14 @@
 @section('content')
     <div class="container-fluid">
         <div class="card bg-transparent border-0 ">
-            <div class="card-header bg-white border d-flex justify-content-between align-items-center">
-                <div>
-                    <a href="{{ route('orders.index') }}" class="btn border-right mr-2"><i class="fa fa-chevron-left"></i>
+            <div class="card-header bg-white border">
+                <div class="row">
+                    <a href="{{ route('orders.index') }}" class="col-md-1 btn border-right "><i class="fa fa-chevron-left"></i>
                         Back</a>
-                    <strong> <em>{{ $order->customer->user->name }} </em></strong> Order
+                    <div class="col-md-11 d-flex justify-content-between align-items-center w-100">
+                        <strong> <em>{{ $order->customer->user->name }} </em></strong>
+                        Estimated Delivery On: {{ $order->estimated_delivery_date->format('D, M d') }}
+                    </div>
                 </div>
             </div>
 
@@ -16,10 +19,21 @@
                         Status: <span class="badge badge-secondary">
                             {{ Str::upper($order->status) }} </span>
                     </div>
+                    @if ($order->status === 'PENDING')
+                        <form action="{{ route('orders.approve', $order) }}" method="POST">
+                            @method('PUT')
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline-primary ml-1">Approve</button>
+                        </form>
+                    @elseif ($order->status === 'APPROVED')
+                        <form action="{{ route('orders.approve', $order) }}" method="POST">
+                            @method('PUT')
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline-primary ml-1"
+                                @if ($lackStocks) disabled @endif>Create Job Order</button>
+                        </form>
+                    @endif
 
-                    <form action="#" method="post">
-                        <button type="submit" class="btn btn-sm btn-outline-primary ml-1">Approve</button>
-                    </form>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
@@ -101,67 +115,25 @@
                                                         <div class="col-md-4">
                                                             <h6>Boards in Components</h6>
                                                             @foreach ($product->components as $key => $component)
-                                                                <li class="dropdown">
-                                                                    <a href="#" class="btn btn-sm btn-link"
-                                                                        id="boardComponent{{ $key }}"
-                                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                                        aria-expanded="false">
-                                                                        {{ $component->board->code }}
-
-                                                                        ({{ transformNumber($component->getBoardQty($product->pivot->quantity), 2) }})
-                                                                    </a>
-                                                                    <div class="dropdown-menu"
-                                                                        aria-labelledby="boardComponent{{ $key }}">
-                                                                        <h6 class="dropdown-header">Other Details</h6>
-                                                                        <div class="dropdown-divider"></div>
-                                                                        <a class="dropdown-item disabled"
-                                                                            href="#"><strong>Type: </strong>
-                                                                            {{ $component->board->type }}
-                                                                        </a>
-                                                                        <a class="dropdown-item disabled"
-                                                                            href="#"><strong>Stocks: </strong>
-                                                                            {{ $component->board->stocks }}
-                                                                        </a>
-                                                                        <a class="dropdown-item disabled"
-                                                                            href="#"><strong>Dimension: </strong>
-                                                                            {{ $component->board->width }} X
-                                                                            {{ $component->board->heigth }}
-                                                                        </a>
-                                                                    </div>
-
-                                                                </li>
+                                                                <x-board-info :board="$component->board" :label="$component->board->code .
+                                                                    '  (' .
+                                                                    transformNumber(
+                                                                        $component->getBoardQty(
+                                                                            $product->pivot->quantity,
+                                                                        ),
+                                                                        2,
+                                                                    ) .
+                                                                    ')'"
+                                                                    id="board-component-{{ $key }}" />
                                                             @endforeach
                                                         </div>
                                                         <div class="col-md-4">
                                                             <h6>Board by Product</h6>
-
-
-                                                            <li class="dropdown">
-                                                                <a href="#" class="btn btn-sm btn-link"
-                                                                    id="boardByProduct" data-toggle="dropdown"
-                                                                    aria-haspopup="true" aria-expanded="false">
-                                                                    {{ $product->board->code }}
-                                                                    ({{ $product->getBoardQty() }})
-                                                                </a>
-                                                                <div class="dropdown-menu" aria-labelledby="boardByProduct">
-                                                                    <h6 class="dropdown-header">Other Details</h6>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item disabled"
-                                                                        href="#"><strong>Type: </strong>
-                                                                        {{ $product->board->type }}
-                                                                    </a>
-                                                                    <a class="dropdown-item disabled"
-                                                                        href="#"><strong>Stocks: </strong>
-                                                                        {{ $product->board->stocks }}
-                                                                    </a>
-                                                                    <a class="dropdown-item disabled"
-                                                                        href="#"><strong>Dimension: </strong>
-                                                                        {{ $product->board->width }} X
-                                                                        {{ $product->board->heigth }}
-                                                                    </a>
-                                                                </div>
-
-                                                            </li>
+                                                            <x-board-info :board="$product->board" :label="$product->board->code .
+                                                                '  (' .
+                                                                transformNumber($product->getBoardQty(), 2) .
+                                                                ')'"
+                                                                id="board-product-{{ $key }}" />
                                                         </div>
                                                     </div>
                                                 </div>

@@ -7,7 +7,7 @@
                 <a href="{{ route('customers.create') }}" class="btn btn-outline-primary">Add customer +</a>
             </div>
         </div>
-        @if ($customers->isEmpty() && Request::query()['search'])
+        @if ($customers->isEmpty() && isset(Request::query()['search']))
             <x-empty-list index-route="customers.index"></x-empty-list>
         @endif
         @if (!$customers->isEmpty())

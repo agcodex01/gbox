@@ -7,7 +7,7 @@
                 <a href="{{ route('products.create') }}" class="btn btn-outline-primary">Add product +</a>
             </div>
         </div>
-        @if ($products->isEmpty() && Request::query()['search'])
+        @if ($products->isEmpty() && isset(Request::query()['search']))
             <x-empty-list index-route="products.index" />
         @endif
         @if (!$products->isEmpty())

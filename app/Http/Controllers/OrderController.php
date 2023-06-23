@@ -31,7 +31,7 @@ class OrderController extends Controller
                 $product->board->code,
                 [
                     'stocks' =>  $product->board->stocks,
-                    'out' =>  ($prev->get($product->board->code)['out'] ?? 0) + ($product->estimate * $product->pivot->quantity)
+                    'out' => ($prev->get($product->board->code)['out'] ?? 0) + ($product->estimate * $product->pivot->quantity)
                 ]
             );
 
@@ -40,7 +40,7 @@ class OrderController extends Controller
                     $component->board->code,
                     [
                         'stocks' =>  $component->board->stocks,
-                        'out' =>  ($prev->get($component->board->code)['out'] ?? 0) +  $component->getBoardQty($product->pivot->quantity)
+                        'out' => ($prev->get($component->board->code)['out'] ?? 0) +  $component->getBoardQty($product->pivot->quantity)
                     ]
                 );
             });
@@ -48,7 +48,11 @@ class OrderController extends Controller
             return $prev;
         }, collect([]));
 
-        return view('orders.view', compact('headers', 'order', 'boards'));
+        $lackStocks = $boards->contains(function($value) {
+            return $value['out'] > $value['stocks'];
+        });
+
+        return view('orders.view', compact('headers', 'order', 'boards', 'lackStocks'));
     }
 
     public function create(Request $request)
@@ -66,7 +70,7 @@ class OrderController extends Controller
         $order = Order::create([
             'customer_id' => $request->customer_id,
             'estimated_delivery_date' => $request->estimated_delivery_date,
-            'status' => 'pending'
+            'status' => Status::PENDING
         ]);
 
         collect($request->items)->each(function ($item) use ($order) {
@@ -88,6 +92,15 @@ class OrderController extends Controller
         ]);
 
         return redirect()->route('orders.index');
+    }
+
+    public function approve(Order $order)
+    {
+        $order->update([
+            'status' => Status::APPROVED
+        ]);
+
+        return back()->with('success', 'Order status updated successfully.');
     }
 
     public function edit(Order $order)

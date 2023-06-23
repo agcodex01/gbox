@@ -35,6 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('orders', OrderController::class);
     Route::resource('components', ComponentController::class);
 
+    Route::prefix('orders')->group(function () {
+        Route::put('{order}/approve', [OrderController::class, 'approve'])->name('orders.approve');
+    });
+
     Route::prefix('/api')->group(function () {
         Route::get('products', [ApiController::class, 'products']);
         Route::get('customers/{customer}', [ApiController::class, 'findCustomerById']);

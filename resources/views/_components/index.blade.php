@@ -2,15 +2,7 @@
 @section('content')
     <div class="container-fluid pt-5 pb-3 mb-5 bg-white">
         <div class="d-flex justify-content-between mb-3">
-            <form action="{{ route('components.index') }}" method="GET" class="w-75 d-flex align-items-center">
-                <div class="input-group w-50 mr-2">
-                    <input type="text" class="form-control" placeholder="Search component code..."
-                        aria-label="component code" aria-describedby="search" name="search">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
+            <x-search-input placeholder="Search component name..." index-route="components.index" />
             <div>
                 <a href="{{ route('components.create') }}" class="btn btn-outline-primary">Add component +</a>
             </div>

@@ -2,15 +2,7 @@
 @section('content')
     <div class="container-fluid pt-5 pb-3 mb-5 bg-white">
         <div class="d-flex justify-content-between mb-3">
-            <form action="{{ route('orders.index') }}" method="GET" class="w-75 d-flex align-items-center">
-                <div class="input-group w-50 mr-2">
-                    <input type="text" class="form-control" placeholder="Search order code..." aria-label="order code"
-                        aria-describedby="search" name="search">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
+            <x-search-input placeholder="Search order id..." index-route="orders.index" />
             <div>
                 <a href="{{ route('orders.create') }}" class="btn btn-outline-primary">Add Order +</a>
             </div>
