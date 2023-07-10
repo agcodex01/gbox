@@ -15,7 +15,6 @@
                 <table class="table border">
                     <thead>
                         <tr>
-                            <th scope="col">Customer</th>
                             <th scope="col">Code</th>
                             <th scope="col">Name</th>
                             <th scope="col">Description</th>
@@ -27,7 +26,6 @@
                     <tbody>
                         @foreach ($products as $product)
                             <tr>
-                                <td>{{ $product->customer->user->name }}</td>
                                 <td>{{ $product->code }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->description }}</td>

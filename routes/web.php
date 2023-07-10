@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ComponentController;
+use App\Http\Controllers\JobOrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('orders', OrderController::class);
     Route::resource('components', ComponentController::class);
+    Route::resource('job-orders', JobOrderController::class);
 
     Route::prefix('orders')->group(function () {
         Route::put('{order}/approve', [OrderController::class, 'approve'])->name('orders.approve');

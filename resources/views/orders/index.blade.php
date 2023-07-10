@@ -1,14 +1,18 @@
 @extends('layouts.app')
 @section('content')
     <div class="container-fluid pt-5 pb-3 mb-5 bg-white">
+        @if ($lackOfStocks)
+            <div class="alert alert-warning d-flex justify-content-between align-items-center" role="alert">
+                <strong>Some boards is out of stocks!</strong>
+                <a href="#" class="btn btn-sm btn-link">Purchase Now</a>
+            </div>
+        @endif
+
         <div class="d-flex justify-content-between mb-3">
             <x-search-input placeholder="Search order id..." index-route="orders.index" />
             <div>
                 <a href="{{ route('orders.create') }}" class="btn btn-outline-primary">Add Order +</a>
             </div>
-        </div>
-        <div>
-
         </div>
         <table class="table border">
             <thead>
@@ -32,6 +36,9 @@
                         <td>{{ $order->status }}</td>
                         <td>{{ $order->products_count }}</td>
                         <td>
+                            <a href="#" class="btn"
+                                onclick="navigator.clipboard.writeText('{{ route('orders.show', $order->id) }}'); alert('copied link to order {{ route('orders.show', $order->id) }}')"><i
+                                    class="fa text-info fa-copy"></i></a>
                             <a href="#" class="btn"><i class="fa text-primary fa-edit"></i></a>
                             <a href="#" class="btn btn-delete" data-toggle="modal" data-target="#deleteModal"
                                 data-id="{{ $order->id }}"><i class="fa text-danger fa-trash"></i>

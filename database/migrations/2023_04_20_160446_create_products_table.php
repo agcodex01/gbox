@@ -21,8 +21,8 @@ class CreateProductsTable extends Migration
             $table->string('description')->nullable();
             $table->string('category');
             $table->double('price', 8, 2);
-            $table->integer('estimate');
-            $table->unsignedBigInteger('customer_id');
+            $table->bigInteger('estimate');
+
             $table->timestamps();
         });
     }

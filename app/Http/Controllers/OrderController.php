@@ -16,7 +16,9 @@ class OrderController extends Controller
         $orders = Order::with('products', 'customer')->withCount('products')->paginate();
         $headers = ['Orders'];
 
-        return view('orders.index', compact('orders', 'headers'));
+        $lackOfStocks = false;
+
+        return view('orders.index', compact('orders', 'headers', 'lackOfStocks'));
     }
 
 

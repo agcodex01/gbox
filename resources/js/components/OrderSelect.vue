@@ -1,23 +1,23 @@
 <template>
   <div class="form-group">
-    <label for="customer">Customer</label>
+    <label for="customer">Order</label>
     <select
-      name="customer_id"
-      id="customer"
+      name="order_id"
+      id="order"
       class="form-control"
       :class="{ 'is-invalid': hasError }"
-      v-model="customerId"
-      v-on:change="selectCustomer"
+      v-model="orderId"
+      v-on:change="selectOrder"
       required
     >
-      <option value="0" selected disabled>Select a customer</option>
+      <option value="0" selected disabled>Select a order</option>
 
       <option
-        v-for="(customer, index) in customers"
+        v-for="(order, index) in orders"
         :value="index"
         :key="index"
       >
-        {{ customer }}
+        {{ order }}
       </option>
     </select>
     <span v-if="hasError" class="invalid-feedback" role="alert">
@@ -27,18 +27,18 @@
 </template>
 <script>
 export default {
-  props: ["customers", "selectedCustomerId", "errors"],
+  props: ["orders", "selectedOrderId", "errors"],
   data() {
     return {
-      customerId: 0,
+      orderId: 0,
     };
   },
   mounted() {
-    this.customerId = this.selectedCustomerId ?? 0;
+    this.orderId = this.selectedOrderId ?? 0;
   },
   methods: {
-    selectCustomer() {
-      this.$eventBus.$emit("customer-select", this.customerId);
+    selectOrder() {
+      this.$eventBus.$emit("order-select", this.orderId);
     },
   },
   computed: {

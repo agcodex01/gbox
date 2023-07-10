@@ -19,7 +19,7 @@ class CreateBoardsTable extends Migration
             $table->string('type');
             $table->float('width');
             $table->float('heigth');
-            $table->integer('stocks')->default(0);
+            $table->bigInteger('stocks')->default(0);
             $table->timestamps();
         });
     }

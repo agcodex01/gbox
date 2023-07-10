@@ -21,6 +21,7 @@ window.Vue = require('vue').default;
 Vue.prototype.$eventBus = new Vue(); // Global event bus
 
 Vue.component('customer-select', require('./components/CustomerSelect.vue').default);
+Vue.component('order-select', require('./components/OrderSelect.vue').default);
 Vue.component('component-list', require('./components/ComponentList.vue').default);
 Vue.component('product-list', require('./components/ProductList.vue').default);
 Vue.component('customer-info', require('./components/CustomerInfo.vue').default);

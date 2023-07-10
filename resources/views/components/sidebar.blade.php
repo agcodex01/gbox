@@ -64,6 +64,11 @@
             <i class="fas fa-fw fa-list"></i>
             <span>Orders</span></a>
     </li>
+    <li class="nav-item @if(Route::currentRouteName() === 'job-orders.index') active @endif">
+        <a class="nav-link" href="{{ route('job-orders.index') }}">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Job Orders</span></a>
+    </li>
     <hr class="sidebar-divider my-0">
     <li class="nav-item">
         <a class="nav-link" href="#">

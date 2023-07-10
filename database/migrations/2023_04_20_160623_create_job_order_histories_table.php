@@ -15,6 +15,10 @@ class CreateJobOrderHistoriesTable extends Migration
     {
         Schema::create('job_order_histories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('job_order_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('rejected');
+            $table->integer('passed');
             $table->timestamps();
         });
     }

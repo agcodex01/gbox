@@ -33,7 +33,6 @@ class ProductRequest extends FormRequest
             'price' => 'required|integer|min:1',
             'board_id' => 'required_without:items|nullable|exists:boards,id',
             'estimate' => 'sometimes|integer',
-            'customer_id' => 'required|exists:customers,id',
             'items' => 'sometimes|array'
         ];
     }

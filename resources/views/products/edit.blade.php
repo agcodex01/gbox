@@ -22,9 +22,6 @@
                                     <h6 class="font-weight-bold">Details</h6>
                                 </div>
                                 <div class="card-body">
-                                    <customer-select :customers="{{ $customers }}"
-                                        :selected-customer-id="{{ $product->customer->id ?? (old('customer_id') ?? 0) }}"
-                                        @error('customer_id') errors="{{ $message }}" @enderror></customer-select>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">

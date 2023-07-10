@@ -15,6 +15,9 @@ class CreateJobOrdersTable extends Migration
     {
         Schema::create('job_orders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('order_id');
+            $table->string('status');
+            $table->double('remarks');
             $table->timestamps();
         });
     }

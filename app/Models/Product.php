@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
@@ -20,17 +19,11 @@ class Product extends Model
         'category',
         'board_id',
         'estimate',
-        'customer_id'
     ];
 
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
-    }
-
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(Customer::class);
     }
 
     public function board()

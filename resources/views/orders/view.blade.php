@@ -26,12 +26,9 @@
                             <button type="submit" class="btn btn-sm btn-outline-primary ml-1">Approve</button>
                         </form>
                     @elseif ($order->status === 'APPROVED')
-                        <form action="{{ route('orders.approve', $order) }}" method="POST">
-                            @method('PUT')
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-outline-primary ml-1"
-                                @if ($lackStocks) disabled @endif>Create Job Order</button>
-                        </form>
+                        <a href="{{ route('job-orders.create') }}?order_id={{ $order->id }}"
+                            class="btn btn-sm btn-outline-primary ml-1"
+                            @if ($lackStocks) disabled @endif>Create Job Order</a>
                     @endif
 
                 </div>
